@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technoblade Custom Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #ffe9c3, #fcd9a3);
+      font-family: 'Courier New', Courier, monospace;
+      color: #222;
+      overflow-x: hidden;
+    }
+     .scroll-banner {
+      overflow: hidden;
+      white-space: nowrap;
+      background: #fff2d9;
+      padding: 0.5rem 0;
+    }
+    .scroll-banner img {
+        height: 200px;
+        min-width: 50vw;
+        animation: scrollBanner 10s linear infinite;
+      }
+
+    @keyframes scrollBanner {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: #f4a261;
+      color: #fff;
+      font-size: 1.5rem;
+      text-shadow: 2px 2px #000;
+    }
+    .content {
+      text-align: center;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    #scene {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      background-color: #fff2d9;
+      position: relative;
+    }
+    .orbit-wrapper {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+    .orbit-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transform-origin: center;
+    }
+    .orbit-container.orbit {
+      animation: orbitSword 1s linear 2, slashT 1s ease-out 2s forwards, throwSword 0.5s ease-in 3s forwards;
+    }
+    .sword {
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      width: 100px;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    .swosh {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(255,255,255,0.6) 10%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+      z-index: 1;
+    }
+    .swosh.show {
+      animation: swoshTrail 1s ease-out forwards;
+    }
+    .technoblade {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      z-index: 1;
+    }
+    #crackEffect {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('crack_custom.png') center/contain no-repeat;
+      background-size: cover;
+      background-color: rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+    #finalBuyBtn {
+      display: none;
+      position: fixed;
+      top: 70%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 11;
+      background-color: #fff3d4;
+      padding: 12px 24px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      cursor: pointer;
+    }
+    #contractBox {
+      display: none;
+      position: fixed;
+      top: 55%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff3d4;
+      padding: 10px 20px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      z-index: 11;
+    }
+    #contractBox button {
+      margin-left: 10px;
+      background-color: #f4a261;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    @keyframes orbitSword {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(720deg); }
+    }
+    @keyframes slashT {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(45deg); }
+    }
+    @keyframes throwSword {
+      0% { transform: scale(1) translate(-50%, -50%) rotate(45deg); opacity: 1; }
+      100% { transform: scale(10) translate(-50%, -50%) rotate(720deg); opacity: 0; }
+    }
+    @keyframes swoshTrail {
+      0% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.5); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
+    }
+    .bubble {
+      margin-top: 1rem;
+      background: #fff3d4;
+      color: #000;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      max-width: 240px;
+      display: none;
+      animation: floatIn 0.5s ease;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    }
+    .buttons {
+      margin: 1.5rem;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+    .buttons button {
+      padding: 10px 20px;
+      font-family: 'Courier New', Courier, monospace;
+      background: #fff3d4;
+      border: 2px solid #333;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #2a9d8f;
+      color: white;
+      font-size: 0.9rem;
+    }
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes jumpIn {
+      0% { transform: translateY(300px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="crackEffect"></div>
+  <div id="contractBox">
+    CA: <span id="ca-text">0x123456789abcdef</span>
+    <button id="copyBtn">COPY</button>
+  </div>
+  <button id="finalBuyBtn">Fine I'll BUY!</button>
+  <header>TECHNOBLADE NEVER DIES</header>
+   <div class="scroll-banner">
+    <img src="Banner.png" alt="Scrolling Technoblade Banner">
+  </div>
+  <div class="content">
+    <h2>Still King in a Broken World</h2>
+    <p>
+      In a world where the charts crash and coins dip, one king remains unshaken.
+      Technoblade’s legacy lives on in pixels and memories — and now in meme form.
+      Join the community, share the meme, and sail through the chaos with style.
+    </p>
+  </div>
+  <div id="scene">
+    <div class="orbit-wrapper">
+      <div id="orbitContainer" class="orbit-container">
+        <img id="sword" class="sword" src="sword.png" alt="Sword">
+        <div class="swosh" id="swosh"></div>
+      </div>
+      <img id="techno" class="technoblade" src="technoblade.png" alt="Technoblade">
+    </div>
+    <div class="bubble" id="bubble">BUY THE TOKEN OR FACE THE SWORD!</div>
+    <div class="buttons" id="initialButtons">
+      <button id="buyBtn">BUY</button>
+      <button id="noBtn">NO</button>
+    </div>
+  </div>
+  <footer>
+    #TECHNOBLADE #DOWNBAD #NEVERDIES<br>
+    Tribute & Meme Page | 2025
+  </footer>
+  <script>
+    const techno = document.getElementById('techno');
+    const sword = document.getElementById('sword');
+    const orbitContainer = document.getElementById('orbitContainer');
+    const bubble = document.getElementById('bubble');
+    const buyBtn = document.getElementById('buyBtn');
+    const noBtn = document.getElementById('noBtn');
+    const crackEffect = document.getElementById('crackEffect');
+    const swosh = document.getElementById('swosh');
+    const finalBuyBtn = document.getElementById('finalBuyBtn');
+    const contractBox = document.getElementById('contractBox');
+    const caText = document.getElementById('ca-text');
+    const copyBtn = document.getElementById('copyBtn');
+    const initialButtons = document.getElementById('initialButtons');
+    let noClicks = 0;
+    let cracked = false;
+
+    setTimeout(() => {
+      bubble.style.display = 'block';
+    }, 2200);
+
+    techno.addEventListener('click', () => {
+  techno.style.transform = 'scale(1.1)';
+  bubble.innerText = 'GOOD. WISE MOVE.';
+  noBtn.style.display = 'none';
+  setTimeout(() => {
+    techno.style.transform = 'scale(1)';
+  }, 300);
+});
+
+    function activateSwordThrow() {
+      orbitContainer.classList.add('orbit');
+      swosh.classList.add('show');
+      cracked = true;
+      setTimeout(() => {
+        crackEffect.style.display = 'block';
+        bubble.innerText = 'SO NOW YOU WANT TO BUY OR STUCK WITH THIS KNIFE FOREVER?';
+        finalBuyBtn.style.display = 'block';
+      }, 3500);
+    }
+
+    function copyToClipboard() {
+      const text = caText.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Contract address copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+
+    buyBtn.addEventListener('click', () => {
+      if (!cracked) {
+        contractBox.style.display = 'block';
+        bubble.innerText = 'WELCOME TO THE KINGDOM!';
+        initialButtons.style.display = 'none';
+        finalBuyBtn.innerText = 'REFRESH';
+        finalBuyBtn.style.display = 'block';
+      }
+    });
+
+    noBtn.addEventListener('click', () => {
+      noClicks++;
+      bubble.innerText = `YOU SAID NO ${noClicks} TIME(S)...`;
+      const newX = Math.floor(Math.random() * 60);
+      const newY = Math.floor(Math.random() * 60);
+      noBtn.style.position = 'relative';
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+      if (noClicks >= 6) {
+        activateSwordThrow();
+        bubble.innerText = 'FACE MY DIAMOND SWORD!';
+        noBtn.disabled = true;
+      }
+    });
+
+    finalBuyBtn.addEventListener('click', () => {
+  location.reload();
+});
+
+    copyBtn.addEventListener('click', copyToClipboard);
+  </script>
+</body>
+</html>
